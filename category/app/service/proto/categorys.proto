@@ -1,0 +1,21 @@
+syntax = "proto3";
+package proto;
+
+message CategoryRequest {
+	
+}
+
+message CategoryList {
+	repeated Category ele=1;
+}
+
+message Category {
+	string Id = 1;
+  	string Name = 2;
+  	string Slug = 3;
+  	int64  OrderNum = 4;
+}
+
+service CategoryService {
+  	rpc GetCategorys (CategoryRequest) returns (CategoryList) {}
+}

@@ -1,0 +1,36 @@
+version: "2"
+
+services:
+    consul:
+        build: ./consul/
+        expose:
+            - 8500
+        ports:
+            - 8500:8500
+        networks:
+            - server
+
+    category:
+        build: ./category/
+        expose:
+            - 8000
+        ports:
+            - 8000:8000
+        networks:
+            - server
+        depends_on:
+            - consul
+
+    post:
+        build: ./post/
+        expose:
+            - 8000
+        ports:
+            - 8001:8000
+        networks:
+            - server
+        depends_on:
+            - consul
+
+networks:
+    server:
