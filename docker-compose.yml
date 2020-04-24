@@ -3,6 +3,7 @@ version: "2"
 services:
     consul:
         build: ./consul/
+        container_name: consul
         expose:
             - 8500
         ports:
@@ -10,8 +11,25 @@ services:
         networks:
             - server
 
+    mysql:
+        image: 'mysql/mysql-server:5.7'
+        restart: always
+        container_name: mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_ROOT_HOST: ${MYSQL_ROOT_HOST}
+        volumes:
+            - "${MYSQL_DIR}/data:/var/lib/mysql"
+            - "${MYSQL_DIR}/config/my.cnf:/etc/my.cnf" 
+            - "${MYSQL_DIR}/test:/var/test"
+        ports:
+            - '3306:3306'
+        networks:
+            - server
+
     category:
         build: ./category/
+        container_name: category
         expose:
             - 8000
         ports:
@@ -23,6 +41,7 @@ services:
 
     post:
         build: ./post/
+        container_name: post
         expose:
             - 8000
         ports:
